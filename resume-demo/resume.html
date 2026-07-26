@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joalnes John D. Vender - Resume</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', 'Inter', -apple-system, sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .resume {
+      max-width: 850px;
+      width: 100%;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+      color: #fff;
+      padding: 40px 48px 32px;
+    }
+    .header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+    .header .subtitle {
+      font-size: 16px;
+      color: #94a3b8;
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+    .header .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      font-size: 13px;
+      color: #cbd5e1;
+    }
+    .header .contact-row a {
+      color: #94a3b8;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .header .contact-row a:hover { color: #fff; }
+    .header .contact-row span { color: #64748b; margin: 0 6px; }
+    .body { padding: 32px 48px 40px; }
+    .summary {
+      background: #f8fafc;
+      border-left: 4px solid #3b82f6;
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #475569;
+      border-radius: 0 8px 8px 0;
+    }
+    .section { margin-bottom: 28px; }
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1e293b;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 6px;
+      margin-bottom: 14px;
+    }
+    .project { margin-bottom: 16px; }
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+    .project-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1e293b;
+    }
+    .project-year {
+      font-size: 13px;
+      color: #64748b;
+      font-weight: 500;
+    }
+    .project-tech {
+      font-size: 12px;
+      color: #3b82f6;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+    .project ul {
+      list-style: none;
+      padding: 0;
+    }
+    .project ul li {
+      font-size: 13px;
+      color: #475569;
+      line-height: 1.5;
+      padding-left: 14px;
+      position: relative;
+      margin-bottom: 2px;
+    }
+    .project ul li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #94a3b8;
+    }
+    .edu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+    .edu-item .school { font-size: 15px; font-weight: 600; color: #1e293b; }
+    .edu-item .year { font-size: 13px; color: #64748b; }
+    .edu-detail {
+      font-size: 13px;
+      color: #475569;
+      margin-bottom: 8px;
+    }
+    .edu-detail:last-of-type { margin-bottom: 0; }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .chip {
+      background: #f1f5f9;
+      color: #334155;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .chip--blue { background: #eff6ff; color: #2563eb; }
+    .cert-list { list-style: none; padding: 0; }
+    .cert-list li {
+      font-size: 13px;
+      color: #475569;
+      padding: 3px 0;
+      padding-left: 14px;
+      position: relative;
+    }
+    .cert-list li::before {
+      content: "▹";
+      position: absolute;
+      left: 0;
+      color: #3b82f6;
+    }
+    .lang-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #475569;
+      padding: 3px 0;
+    }
+    .lang-item .level { color: #64748b; }
+    hr { border: none; border-top: 1px solid #e2e8f0; margin: 16px 0; }
+    @media (max-width: 600px) {
+      .header, .body { padding: 24px; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .header .contact-row { flex-direction: column; gap: 6px; }
+    }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .resume { box-shadow: none; border-radius: 0; max-width: 100%; }
+      .header { background: #1e293b !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .summary { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+
+    /* Dark mode */
+    [data-theme="dark"] body {
+      background: #0A0A1A;
+    }
+    [data-theme="dark"] .resume {
+      background: #111123;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.5);
+    }
+    [data-theme="dark"] .header {
+      background: linear-gradient(135deg, #0d1628 0%, #1a2a4a 100%);
+    }
+    [data-theme="dark"] .body {
+      background: #111123;
+    }
+    [data-theme="dark"] .summary {
+      background: #1A1A3A;
+      border-left-color: #4B83FF;
+      color: #A0A0C0;
+    }
+    [data-theme="dark"] .section-title {
+      color: #E8E8F0;
+      border-bottom-color: #1E1E3A;
+    }
+    [data-theme="dark"] .project-name,
+    [data-theme="dark"] .edu-item .school {
+      color: #E8E8F0;
+    }
+    [data-theme="dark"] .project-year,
+    [data-theme="dark"] .edu-item .year {
+      color: #6B6B8D;
+    }
+    [data-theme="dark"] .project-tech {
+      color: #4B83FF;
+    }
+    [data-theme="dark"] .project ul li,
+    [data-theme="dark"] .edu-detail,
+    [data-theme="dark"] .lang-item,
+    [data-theme="dark"] .cert-list li {
+      color: #A0A0C0;
+    }
+    [data-theme="dark"] .cert-list li::before {
+      color: #4B83FF;
+    }
+    [data-theme="dark"] .chip {
+      background: #1A1A3A;
+      color: #A0A0C0;
+    }
+    [data-theme="dark"] .chip--blue {
+      background: rgba(75,131,255,0.15);
+      color: #4B83FF;
+    }
+    [data-theme="dark"] hr {
+      border-top-color: #1E1E3A;
+    }
+    [data-theme="dark"] [style*="color: #1e293b"] {
+      color: #E8E8F0 !important;
+    }
+    [data-theme="dark"] [style*="color: #475569"] {
+      color: #A0A0C0 !important;
+    }
+
+    /* Production polish pass: print, mobile, and accessibility refinements. */
+    html { scroll-behavior: smooth; }
+    body { min-width: 320px; text-rendering: optimizeLegibility; }
+    a:focus-visible { outline: 3px solid rgba(59, 130, 246, .35); outline-offset: 3px; border-radius: 4px; }
+    .resume { box-shadow: 0 24px 70px rgba(15, 23, 42, .16); }
+    .section-title { text-wrap: balance; }
+    .summary, li, p { text-wrap: pretty; }
+    @media (max-width: 720px) {
+      body { padding: 0; background: #fff; }
+      .resume { border-radius: 0; box-shadow: none; }
+      .header, .body { padding-inline: 24px; }
+      .project-header { gap: 6px; flex-direction: column; }
+      .header .contact-row { gap: 10px 16px; }
+    }
+    @media print {
+      body { padding: 0; background: #fff; }
+      .resume { box-shadow: none; border-radius: 0; }
+      a { color: inherit; }
+    }
+  </style>
+  <script>
+    (function() {
+      var stored = localStorage.getItem('theme');
+      if (!stored) {
+        stored = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      document.documentElement.setAttribute('data-theme', stored);
+    })();
+  </script>
+</head>
+<body>
+<header style="position:sticky;top:0;z-index:100;background:var(--color-bg,#fff);border-bottom:1px solid #E2E8F0;height:64px;display:flex;align-items:center;padding:0 24px;justify-content:space-between;backdrop-filter:blur(8px);transition:background 0.3s,border-color 0.3s;" id="resumeNav">
+  <a href="../index.html#projects" style="font-weight:700;font-size:0.9rem;color:inherit;text-decoration:none;display:flex;align-items:center;gap:6px;">← Portfolio</a>
+  <span style="font-weight:600;font-size:0.9rem;opacity:0.7;">Resume — Joalnes John D. Vender</span>
+  <a href="https://github.com/JvlKe" target="_blank" style="font-size:0.85rem;font-weight:600;color:#2563EB;text-decoration:none;">GitHub</a>
+</header>
+<style>
+  [data-theme="dark"] #resumeNav {
+    background: rgba(10,10,26,0.95) !important;
+    border-bottom-color: #1E1E3A !important;
+    color: #E8E8F0 !important;
+  }
+  [data-theme="dark"] #resumeNav a {
+    color: #4B83FF !important;
+  }
+  [data-theme="dark"] #resumeNav span {
+    color: #A0A0C0 !important;
+  }
+</style>
+<div class="resume" style="margin-top:20px;">
+
+  <div class="header">
+    <h1>Joalnes John D. Vender</h1>
+    <div class="subtitle">BS Computer Science · 4th Year</div>
+    <div class="contact-row">
+      <span>📧 <a href="mailto:johnvender25@gmail.com">johnvender25@gmail.com</a></span>
+      <span>📞 +63 993 886 3842</span>
+      <span>🔗 <a href="https://www.linkedin.com/in/joalnes-john-vender-518464261/" target="_blank">linkedin.com/in/joalnes-john-vender</a></span>
+      <span>💻 <a href="https://github.com/JvlKe" target="_blank">github.com/JvlKe</a></span>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="summary">
+      Detail-oriented 4th-year BS Computer Science student with a strong foundation in data analytics,
+      database management, and business intelligence. Skilled in Python, SQL, and data visualization
+      through hands-on projects and industry-recognized certifications. Seeking a Data Analyst internship
+      to apply analytical skills and contribute to data-driven solutions.
+    </div>
+
+    <div class="section">
+      <div class="section-title">Projects</div>
+      <div class="project">
+        <div class="project-header">
+          <span class="project-name">OnlyFunds – Budget Tracking Application</span>
+          <span class="project-year">2025</span>
+        </div>
+        <div class="project-tech">Flutter · Dart</div>
+        <ul>
+          <li>Designed intuitive UI/UX from wireframe to production</li>
+          <li>Integrated Firebase for real-time cloud data storage</li>
+          <li>Built financial tracking features tailored for student budgets</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="section">
+        <div class="section-title">Education</div>
+        <div class="edu-item">
+          <span class="school">Holy Angel University</span>
+          <span class="year">2023 – Present</span>
+        </div>
+        <div class="edu-detail">Bachelor of Science in Computer Science · 4th Year</div>
+        <div style="margin-top: 10px;">
+          <div class="edu-item">
+            <span class="school">Holy Angel University</span>
+            <span class="year">2021 – 2023</span>
+          </div>
+          <div class="edu-detail">STEM Strand</div>
+        </div>
+        <div style="margin-top: 8px; font-size: 13px; color: #475569;">
+          <span style="font-weight: 600; color: #1e293b;">Dean's List</span> (2x)
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Expertise</div>
+        <div class="chip-list">
+          <span class="chip chip--blue">Python</span>
+          <span class="chip chip--blue">Java</span>
+          <span class="chip chip--blue">JavaScript</span>
+          <span class="chip chip--blue">HTML</span>
+          <span class="chip chip--blue">CSS</span>
+          <span class="chip">Data Analytics</span>
+          <span class="chip">Data Cleaning</span>
+          <span class="chip">Data Visualization</span>
+          <span class="chip">Basic Data Analysis</span>
+          <span class="chip">Database</span>
+          <span class="chip">SQL (MySQL)</span>
+          <span class="chip">Flutter</span>
+          <span class="chip">Git</span>
+          <span class="chip">GitHub</span>
+          <span class="chip">Figma</span>
+        </div>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="grid-2">
+      <div class="section">
+        <div class="section-title">Certifications</div>
+        <ul class="cert-list">
+          <li>CompTIA IT Fundamentals+ (ITF+) – CompTIA</li>
+          <li>AWS Academy Cloud Foundations – Amazon Web Services</li>
+          <li>Relational Database – freeCodeCamp</li>
+          <li>Responsive Web Design – freeCodeCamp</li>
+          <li>JavaScript Essentials 1 – Cisco Networking Academy</li>
+          <li>Introduction to Figma – Simplilearn SkillUp</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Languages</div>
+        <div class="lang-item"><span>English</span><span class="level">Professional</span></div>
+        <div class="lang-item"><span>Filipino</span><span class="level">Native</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

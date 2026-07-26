@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OnlyFunds Live Demo</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="onlyfunds-demo.css" />
+  <!-- Theme sync from parent portfolio -->
+  <script>
+    (function() {
+      var stored = localStorage.getItem('theme');
+      if (!stored) {
+        stored = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      document.documentElement.setAttribute('data-theme', stored);
+    })();
+  </script>
+</head>
+
+<body class="demo-body">
+  <header class="demo-nav">
+    <div class="container demo-nav-inner">
+      <a href="../index.html#projects" class="nav-logo">← Portfolio</a>
+      <a href="https://github.com/javieAlfaro/onlyfunds---budget-management-system" class="btn btn-secondary btn-sm" target="_blank" rel="noopener">View Source</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="demo-hero">
+      <div class="container demo-hero-grid">
+        <div>
+          <span class="hero-badge"><span class="badge-dot"></span> Flutter/Firebase Project Demo</span>
+          <h1 class="hero-name">OnlyFunds Budget Management System</h1>
+          <p class="hero-intro">
+            A student-focused budget management app with dashboard tracking, transaction history,
+            savings goals, reports, and financial insights.
+          </p>
+
+          <div class="project-tech">
+            <span class="chip chip--mono">Flutter</span>
+            <span class="chip chip--mono">Firebase</span>
+            <span class="chip chip--mono">Dart</span>
+            <span class="chip chip--mono">Budget Tracker</span>
+          </div>
+        </div>
+
+        <div class="phone-preview">
+          <div class="phone-top"></div>
+
+          <div class="phone-appbar">
+            <div>
+              <small>Hello, Student</small>
+              <h3>Dashboard</h3>
+            </div>
+            <div class="avatar">OF</div>
+          </div>
+
+          <div class="balance-card">
+            <span>Total Balance</span>
+            <h2 id="phoneBalance">₱0</h2>
+          </div>
+
+          <div class="phone-stats">
+            <div class="phone-stat">
+              <span>Income</span>
+              <strong id="phoneIncome">₱0</strong>
+            </div>
+            <div class="phone-stat">
+              <span>Expenses</span>
+              <strong id="phoneExpense">₱0</strong>
+            </div>
+          </div>
+
+          <div class="phone-section">
+            <div class="phone-section-head">
+              <strong>Recent Transactions</strong>
+              <small>See all</small>
+            </div>
+            <div id="phoneList" class="phone-list"></div>
+          </div>
+
+          <div class="phone-goal">
+            <div>
+              <span>Savings Goal</span>
+              <strong>₱5,000 / ₱10,000</strong>
+            </div>
+            <div class="goal-track">
+              <div class="goal-fill"></div>
+            </div>
+          </div>
+
+          <div class="bottom-nav">
+            <span>💰</span>
+            <span>📊</span>
+            <span class="active">🏠</span>
+            <span>🕒</span>
+            <span>⚙️</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-dashboard section-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Live Demo</span>
+          <h2 class="section-title">Try the OnlyFunds Dashboard</h2>
+          <p class="section-subtitle">
+            Add income or expenses and the dashboard updates like the original mobile app.
+          </p>
+        </div>
+
+        <div class="demo-grid">
+          <form class="transaction-form" id="transactionForm">
+            <h3>Add Transaction</h3>
+
+            <label>
+              Title
+              <input id="titleInput" type="text" placeholder="e.g., Allowance, Lunch, Fare" required />
+            </label>
+
+            <label>
+              Amount
+              <input id="amountInput" type="number" min="1" placeholder="250" required />
+            </label>
+
+            <label>
+              Type
+              <select id="typeInput">
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+              </select>
+            </label>
+
+            <label>
+              Category
+              <select id="categoryInput">
+                <option>Income/Allowance</option>
+                <option>Food</option>
+                <option>Transportation</option>
+                <option>Entertainment</option>
+                <option>School Expenses</option>
+                <option>Bills</option>
+                <option>Savings</option>
+                <option>Other</option>
+              </select>
+            </label>
+
+            <button class="btn btn-primary" type="submit">Add Transaction</button>
+          </form>
+
+          <div class="dashboard-panel">
+            <div class="summary-cards">
+              <div class="summary-card dark">
+                <span>Total Balance</span>
+                <strong id="balanceValue">₱0</strong>
+              </div>
+              <div class="summary-card">
+                <span>Total Income</span>
+                <strong id="incomeValue">₱0</strong>
+              </div>
+              <div class="summary-card">
+                <span>Total Expenses</span>
+                <strong id="expenseValue">₱0</strong>
+              </div>
+            </div>
+
+            <div class="report-card">
+              <h3>Financial Insight</h3>
+              <p id="insightText">Your spending summary will appear here.</p>
+            </div>
+
+            <div class="transactions-card">
+              <div class="transactions-header">
+                <h3>Transaction History</h3>
+                <button class="btn btn-ghost btn-sm" id="resetBtn" type="button">Reset Demo</button>
+              </div>
+
+              <div id="transactionList" class="transaction-list"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="onlyfunds-demo.js"></script>
+</body>
+</html>

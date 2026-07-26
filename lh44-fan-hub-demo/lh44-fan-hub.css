@@ -1,0 +1,909 @@
+/* ============================================================
+   LH44 FAN HUB — STYLESHEET
+   Light mode: Official F1 website style (white, red, bold)
+   Dark mode:  Original dark motorsport style (near-black, purple)
+   Theme driven by [data-theme="dark"] on <html>
+============================================================ */
+
+/* ===== IMPORT RACING FONT ===== */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,800;0,900;1,700;1,800;1,900&display=swap');
+
+/* ===== CSS VARIABLES — Light (F1 style) ===== */
+.lh44-body {
+  --lh-bg:           #FFFFFF;
+  --lh-surface:      #F5F5F5;
+  --lh-surface-2:    #EBEBEB;
+  --lh-card:         #FFFFFF;
+  --lh-card-hover:   #F9F9F9;
+  --lh-border:       #E0E0E0;
+  --lh-text:         #1A1A1A;
+  --lh-text-sec:     #555555;
+  --lh-text-muted:   #999999;
+  --lh-accent:       #E10600;    /* F1 red */
+  --lh-accent-2:     #CC0000;
+  --lh-accent-dark:  #1A1A1A;   /* F1 black */
+  --lh-tag-color:    #E10600;
+  --lh-hero-bg:      #1A1A1A;   /* hero stays dark for drama */
+  --lh-hero-text:    #FFFFFF;
+  --lh-font-hero:    'Barlow Condensed', 'Inter', sans-serif;
+  --lh-shadow:       0 4px 16px rgba(0,0,0,0.12);
+  --lh-shadow-lg:    0 12px 40px rgba(0,0,0,0.18);
+
+  background: var(--lh-bg);
+  color: var(--lh-text);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ===== CSS VARIABLES — Dark (original style) ===== */
+[data-theme="dark"] .lh44-body {
+  --lh-bg:           #08070c;
+  --lh-surface:      #0c0b12;
+  --lh-surface-2:    #111018;
+  --lh-card:         #111018;
+  --lh-card-hover:   #19172a;
+  --lh-border:       rgba(255,255,255,0.08);
+  --lh-text:         #FFFFFF;
+  --lh-text-sec:     #cfcfcf;
+  --lh-text-muted:   #aaaaaa;
+  --lh-accent:       #b000ff;   /* purple in dark mode */
+  --lh-accent-2:     #9000dd;
+  --lh-accent-dark:  #e10600;   /* red for date highlights */
+  --lh-tag-color:    #b000ff;
+  --lh-hero-bg:      #08070c;
+  --lh-hero-text:    #FFFFFF;
+  --lh-shadow:       0 4px 16px rgba(0,0,0,0.5);
+  --lh-shadow-lg:    0 12px 40px rgba(0,0,0,0.6);
+}
+
+.lh44-body img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.lh44-body a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ===== DEMO NAV OVERRIDE ===== */
+.lh44-body .demo-nav {
+  background: var(--lh-hero-bg);
+  border-bottom: 3px solid var(--lh-accent);
+}
+
+.lh44-body .nav-logo {
+  color: #FFFFFF !important;
+}
+
+.lh44-body .btn-secondary {
+  color: #FFFFFF;
+  border-color: rgba(255,255,255,0.4);
+}
+
+.lh44-body .btn-secondary:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.lh44-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.lh44-logo {
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #FFFFFF;
+  font-family: var(--lh-font-hero, 'Inter');
+  text-transform: uppercase;
+}
+
+.lh44-logo span {
+  color: var(--lh-accent);
+}
+
+/* ===== HERO — F1 big dramatic section ===== */
+.lh44-hero {
+  min-height: calc(100vh - var(--nav-height, 60px));
+  display: flex;
+  align-items: center;
+  background: var(--lh-hero-bg);
+  padding-block: var(--space-12, 50px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Red diagonal stripe accent */
+.lh44-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(135deg, transparent 40%, rgba(225,6,0,0.08) 100%);
+  pointer-events: none;
+}
+
+/* Dark mode: purple tint */
+[data-theme="dark"] .lh44-hero::before {
+  background: radial-gradient(circle at top left, rgba(176,0,255,0.25), transparent 35%),
+              radial-gradient(circle at bottom right, rgba(225,6,0,0.25), transparent 35%);
+  width: 100%;
+}
+
+.lh44-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-12, 45px);
+  align-items: center;
+}
+
+/* F1 tag label */
+.lh44-tag {
+  display: inline-block;
+  color: var(--lh-accent);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+  font-family: var(--lh-font-hero, 'Inter');
+}
+
+/* Hero heading — bold italic F1 style */
+.lh44-hero h1 {
+  font-family: var(--lh-font-hero, 'Inter');
+  font-size: clamp(3.5rem, 9vw, 7rem);
+  font-style: italic;
+  font-weight: 900;
+  line-height: 0.92;
+  text-transform: uppercase;
+  color: var(--lh-hero-text);
+  margin: 12px 0;
+  letter-spacing: -0.02em;
+}
+
+.lh44-hero h1 span {
+  color: var(--lh-accent);
+  display: block;
+}
+
+.lh44-hero h2 {
+  font-family: var(--lh-font-hero, 'Inter');
+  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  font-weight: 700;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 18px;
+}
+
+.lh44-hero-text p {
+  color: rgba(255,255,255,0.65);
+  max-width: 520px;
+  font-size: 1rem;
+}
+
+.lh44-hero-buttons {
+  display: flex;
+  gap: 14px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+
+/* F1 style buttons — square edges, bold */
+.lh44-btn {
+  display: inline-block;
+  padding: 14px 28px;
+  font-weight: 800;
+  font-family: var(--lh-font-hero, 'Inter');
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 0.85rem;
+  transition: all 0.25s ease;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+
+/* F1 red CTA button */
+.lh44-primary {
+  background: var(--lh-accent);
+  color: #ffffff;
+}
+
+.lh44-primary:hover {
+  background: var(--lh-accent-2);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(225,6,0,0.35);
+}
+
+[data-theme="dark"] .lh44-primary:hover {
+  box-shadow: 0 10px 24px rgba(176,0,255,0.35);
+}
+
+.lh44-secondary {
+  background: transparent;
+  color: rgba(255,255,255,0.9);
+  border: 2px solid rgba(255,255,255,0.4);
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+
+.lh44-secondary:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: #ffffff;
+  transform: translateY(-3px);
+}
+
+.lh44-hero-card {
+  border-radius: 4px;
+  overflow: hidden;
+  border: 3px solid var(--lh-accent);
+  box-shadow: var(--lh-shadow-lg);
+  position: relative;
+}
+
+/* Red stripe at top of hero card */
+.lh44-hero-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--lh-accent);
+  z-index: 2;
+}
+
+.lh44-hero-card img {
+  height: 520px;
+  object-fit: cover;
+  object-position: center 10%;
+  display: block;
+  width: 100%;
+}
+
+/* ===== SECTIONS ===== */
+.lh44-section {
+  padding: 80px 0;
+  background: var(--lh-bg);
+  transition: background 0.3s;
+}
+
+.lh44-section-title {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+/* Section heading — F1 bold italic */
+.lh44-section-title h2 {
+  font-family: var(--lh-font-hero, 'Inter');
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: var(--lh-text);
+  margin: 8px 0;
+  transition: color 0.3s;
+}
+
+.lh44-section-title p {
+  color: var(--lh-text-sec);
+  transition: color 0.3s;
+}
+
+/* ===== NEWS — F1 card style ===== */
+.lh44-news-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.lh44-news-card {
+  background: var(--lh-card);
+  border: 1px solid var(--lh-border);
+  border-top: 4px solid var(--lh-accent);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: var(--lh-shadow);
+}
+
+.lh44-news-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--lh-shadow-lg);
+  border-top-color: var(--lh-accent-2);
+}
+
+.lh44-news-card img {
+  height: 220px;
+  object-fit: cover;
+  object-position: center 10%;
+  display: block;
+  width: 100%;
+}
+
+.lh44-news-body {
+  padding: 20px;
+}
+
+.lh44-news-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.lh44-news-meta span {
+  color: var(--lh-accent);
+  font-weight: 800;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-family: var(--lh-font-hero, 'Inter');
+}
+
+.lh44-news-meta small {
+  color: var(--lh-text-muted);
+  font-size: 0.8rem;
+}
+
+.lh44-news-body h3 {
+  font-family: var(--lh-font-hero, 'Inter');
+  font-size: 1.2rem;
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  color: var(--lh-text);
+  margin-bottom: 10px;
+  line-height: 1.2;
+  transition: color 0.3s;
+}
+
+.lh44-news-body p {
+  color: var(--lh-text-sec);
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+  line-height: 1.55;
+  transition: color 0.3s;
+}
+
+.lh44-news-body a {
+  color: var(--lh-accent);
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: gap 0.2s;
+}
+
+.lh44-news-body a:hover {
+  gap: 10px;
+}
+
+/* ===== CAREER HIGHLIGHTS ===== */
+.lh44-career {
+  background: var(--lh-surface);
+  transition: background 0.3s;
+}
+
+.lh44-timeline {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.lh44-tl-item {
+  background: var(--lh-card);
+  border: 1px solid var(--lh-border);
+  border-left: 4px solid var(--lh-accent);
+  padding: 24px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  box-shadow: var(--lh-shadow);
+}
+
+.lh44-tl-item:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--lh-shadow-lg);
+}
+
+.lh44-tl-item span {
+  color: var(--lh-accent-dark);
+  font-weight: 900;
+  font-size: 1.3rem;
+  font-family: var(--lh-font-hero, 'Inter');
+  font-style: italic;
+  text-transform: uppercase;
+}
+
+[data-theme="dark"] .lh44-tl-item span {
+  color: #e10600;
+}
+
+.lh44-tl-item h3 {
+  margin: 10px 0 6px;
+  color: var(--lh-text);
+  font-family: var(--lh-font-hero, 'Inter');
+  font-weight: 800;
+  font-style: italic;
+  font-size: 1.05rem;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+
+.lh44-tl-item p {
+  color: var(--lh-text-sec);
+  font-size: 0.9rem;
+  transition: color 0.3s;
+}
+
+/* ===== STATS ===== */
+.lh44-stats {
+  background: var(--lh-hero-bg);
+}
+
+.lh44-stats .lh44-section-title h2 {
+  color: #FFFFFF;
+}
+
+.lh44-stats .lh44-section-title p {
+  color: rgba(255,255,255,0.65);
+}
+
+.lh44-stats .lh44-tag {
+  color: var(--lh-accent);
+}
+
+.lh44-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.lh44-stat-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-top: 4px solid var(--lh-accent);
+  text-align: center;
+  padding: 36px 16px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.lh44-stat-card:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateY(-4px);
+}
+
+.lh44-stat-card i {
+  color: var(--lh-accent);
+  font-size: 2rem;
+}
+
+.lh44-stat-card h3 {
+  font-family: var(--lh-font-hero, 'Inter');
+  font-size: 3.2rem;
+  font-weight: 900;
+  font-style: italic;
+  margin: 14px 0 8px;
+  color: #FFFFFF;
+  line-height: 1;
+}
+
+.lh44-stat-card p {
+  color: rgba(255,255,255,0.65);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+/* ===== GALLERY ===== */
+.lh44-gallery {
+  background: var(--lh-surface);
+  transition: background 0.3s;
+}
+
+.lh44-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.lh44-gallery-item {
+  height: 260px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid var(--lh-border);
+}
+
+.lh44-gallery-item img {
+  height: 100%;
+  width: 100%;
+  transition: all 0.4s ease;
+}
+
+.lh44-gallery-item:hover img {
+  transform: scale(1.08);
+}
+
+.lh44-gallery-item span {
+  position: absolute;
+  inset: auto 12px 12px 12px;
+  background: rgba(0,0,0,0.75);
+  padding: 8px 14px;
+  border-radius: 2px;
+  font-weight: 800;
+  font-family: var(--lh-font-hero, 'Inter');
+  font-style: italic;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+/* ===== SCHEDULE TABLE ===== */
+.lh44-table-wrap {
+  overflow-x: auto;
+  border-radius: 4px;
+  border: 1px solid var(--lh-border);
+  box-shadow: var(--lh-shadow);
+}
+
+.lh44-table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--lh-card);
+  min-width: 650px;
+  transition: background 0.3s;
+}
+
+.lh44-table-wrap th,
+.lh44-table-wrap td {
+  padding: 16px 20px;
+  text-align: left;
+  border-bottom: 1px solid var(--lh-border);
+  color: var(--lh-text);
+  transition: color 0.3s, border-color 0.3s;
+}
+
+.lh44-table-wrap th {
+  background: var(--lh-accent);
+  color: #FFFFFF;
+  font-family: var(--lh-font-hero, 'Inter');
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+}
+
+[data-theme="dark"] .lh44-table-wrap th {
+  background: #191722;
+  color: var(--lh-accent);
+}
+
+.lh44-table-wrap td span {
+  background: rgba(225,6,0,0.1);
+  color: var(--lh-accent);
+  padding: 5px 12px;
+  border-radius: 2px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: var(--lh-font-hero, 'Inter');
+}
+
+[data-theme="dark"] .lh44-table-wrap td span {
+  background: rgba(176,0,255,0.15);
+  color: #d891ff;
+}
+
+.lh44-table-wrap td span.next {
+  background: rgba(225,6,0,0.15);
+  color: #CC0000;
+}
+
+[data-theme="dark"] .lh44-table-wrap td span.next {
+  background: rgba(225,6,0,0.2);
+  color: #ff6b66;
+}
+
+.lh44-table-wrap td span.finished {
+  background: rgba(0,128,0,0.08);
+  color: #15803D;
+}
+
+[data-theme="dark"] .lh44-table-wrap td span.finished {
+  background: rgba(0,200,83,0.15);
+  color: #69f0ae;
+}
+
+/* ===== CONTACT ===== */
+.lh44-contact {
+  background: var(--lh-bg);
+  transition: background 0.3s;
+}
+
+.lh44-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.lh44-contact h2 {
+  font-family: var(--lh-font-hero, 'Inter');
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  color: var(--lh-text);
+  transition: color 0.3s;
+}
+
+.lh44-contact p {
+  color: var(--lh-text-sec);
+  transition: color 0.3s;
+}
+
+#lh44ContactForm {
+  background: var(--lh-card);
+  border: 1px solid var(--lh-border);
+  border-top: 4px solid var(--lh-accent);
+  padding: 28px;
+  border-radius: 4px;
+  display: grid;
+  gap: 14px;
+  box-shadow: var(--lh-shadow);
+  transition: background 0.3s, border-color 0.3s;
+}
+
+#lh44ContactForm input,
+#lh44ContactForm textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--lh-border);
+  background: var(--lh-surface);
+  color: var(--lh-text);
+  border-radius: 2px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+#lh44ContactForm input:focus,
+#lh44ContactForm textarea:focus {
+  outline: none;
+  border-color: var(--lh-accent);
+  box-shadow: 0 0 0 3px rgba(225,6,0,0.1);
+}
+
+[data-theme="dark"] #lh44ContactForm input:focus,
+[data-theme="dark"] #lh44ContactForm textarea:focus {
+  box-shadow: 0 0 0 3px rgba(176,0,255,0.15);
+}
+
+#lh44ContactForm textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* ===== FOOTER ===== */
+.lh44-footer {
+  padding: 44px 0;
+  background: var(--lh-accent-dark);
+  border-top: 4px solid var(--lh-accent);
+  transition: background 0.3s;
+}
+
+[data-theme="dark"] .lh44-footer {
+  background: #050507;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.lh44-footer-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+}
+
+.lh44-footer .lh44-logo {
+  font-size: 1.4rem;
+  color: #FFFFFF;
+}
+
+.lh44-footer p {
+  color: rgba(255,255,255,0.6);
+  max-width: 600px;
+  margin-top: 8px;
+  font-size: 0.875rem;
+}
+
+.lh44-credit {
+  font-size: 0.8rem !important;
+}
+
+.lh44-socials {
+  display: flex;
+  gap: 12px;
+}
+
+.lh44-socials a {
+  width: 42px;
+  height: 42px;
+  background: rgba(255,255,255,0.1);
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.lh44-socials a:hover {
+  background: var(--lh-accent);
+  transform: translateY(-4px);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .lh44-hero-grid,
+  .lh44-contact-grid {
+    grid-template-columns: 1fr;
+  }
+  .lh44-hero-card img {
+    height: 380px;
+  }
+  .lh44-news-grid,
+  .lh44-timeline,
+  .lh44-gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .lh44-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .lh44-footer-grid {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .lh44-section {
+    padding: 60px 0;
+  }
+  .lh44-news-grid,
+  .lh44-timeline,
+  .lh44-gallery-grid,
+  .lh44-stats-grid {
+    grid-template-columns: 1fr;
+  }
+  .lh44-hero-card img {
+    height: 300px;
+  }
+  .lh44-hero-buttons {
+    flex-direction: column;
+  }
+  .lh44-btn {
+    text-align: center;
+  }
+  .lh44-contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ============================================================
+   PRODUCTION POLISH PASS — LH44 Demo
+   Adds refined spacing, responsive stability, and premium interaction
+   states without changing the existing content or theme behavior.
+============================================================ */
+.lh44-body {
+  min-width: 320px;
+  text-rendering: optimizeLegibility;
+}
+
+.lh44-body .demo-nav {
+  backdrop-filter: saturate(160%) blur(16px);
+  -webkit-backdrop-filter: saturate(160%) blur(16px);
+}
+
+.lh44-hero-card,
+.lh44-news-card,
+.lh44-stat-card,
+.lh44-gallery-item,
+.lh44-race-card {
+  transform: translateY(0);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  will-change: transform;
+}
+
+.lh44-hero-card:hover,
+.lh44-news-card:hover,
+.lh44-stat-card:hover,
+.lh44-gallery-item:hover,
+.lh44-race-card:hover {
+  transform: translateY(-6px);
+}
+
+.lh44-btn,
+.lh44-body .btn,
+.lh44-body a,
+.lh44-body button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lh44-btn:focus-visible,
+.lh44-body a:focus-visible,
+.lh44-body button:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--lh-accent) 30%, transparent);
+}
+
+.lh44-hero-text p,
+.lh44-section-title,
+.lh44-news-card p,
+.lh44-career-text p {
+  text-wrap: pretty;
+}
+
+.lh44-section-title {
+  letter-spacing: -0.035em;
+}
+
+.lh44-tag,
+.lh44-news-tag,
+.lh44-race-date {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14);
+}
+
+@media (max-width: 900px) {
+  .lh44-hero {
+    min-height: auto;
+    padding-block: 64px;
+  }
+  .lh44-hero-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+    justify-items: center;
+  }
+  .lh44-hero-buttons {
+    justify-content: center;
+  }
+  .lh44-hero-card {
+    width: min(620px, 100%);
+  }
+}
+
+@media (max-width: 560px) {
+  .lh44-body .demo-nav-inner {
+    gap: 10px;
+  }
+  .lh44-nav-brand {
+    display: none;
+  }
+  .lh44-hero-buttons,
+  .lh44-btn {
+    width: 100%;
+  }
+  .lh44-btn {
+    justify-content: center;
+  }
+}
