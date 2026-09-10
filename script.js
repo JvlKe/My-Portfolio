@@ -1,155 +1,45 @@
-(() => {
-  const navbar = document.getElementById('navbar');
-  const hamburger = document.getElementById('hamburger');
-  const navLinks = document.getElementById('nav-links');
-  const themeToggle = document.getElementById('themeToggle');
-
-  // ===== THEME TOGGLE =====
-  function getPreferredTheme() {
-    const stored = localStorage.getItem('theme');
-    if (stored === 'dark' || stored === 'light') return stored;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  }
-
-  function setTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-  }
-
-  // Apply theme on load
-  setTheme(getPreferredTheme());
-
-  if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-theme');
-      setTheme(current === 'dark' ? 'light' : 'dark');
-    });
-  }
-
-  // 1) Hamburger toggle (mobile)
-  function setHamburgerState(isOpen) {
-    if (!hamburger || !navLinks) return;
-    hamburger.classList.toggle('open', isOpen);
-    navLinks.classList.toggle('open', isOpen);
-    hamburger.setAttribute('aria-expanded', String(isOpen));
-  }
-
-  if (hamburger && navLinks) {
-    hamburger.addEventListener('click', () => {
-      const isOpen = navLinks.classList.contains('open');
-      setHamburgerState(!isOpen);
-    });
-    navLinks.addEventListener('click', (e) => {
-      const link = e.target && e.target.closest && e.target.closest('a');
-      if (!link) return;
-      setHamburgerState(false);
-    });
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > 768) setHamburgerState(false);
-    });
-  }
-
-  // 2) Navbar shadow on scroll
-  function handleNavbarScroll() {
-    if (!navbar) return;
-    const scrolled = window.scrollY > 10;
-    navbar.classList.toggle('scrolled', scrolled);
-  }
-  handleNavbarScroll();
-  window.addEventListener('scroll', handleNavbarScroll, { passive: true });
-
-  // 3) Active nav-link highlighting based on scroll position
-  const navLinkEls = Array.from(document.querySelectorAll('.nav-link'));
-  const sectionIds = navLinkEls
-    .map((a) => (a.getAttribute('href') || '').replace('#', ''))
-    .filter(Boolean);
-
-  function setActiveNavLink(activeId) {
-    for (const a of navLinkEls) {
-      const id = (a.getAttribute('href') || '').replace('#', '');
-      a.classList.toggle('active', id === activeId);
-    }
-  }
-
-  function getActiveSectionId() {
-    const offset = 80;
-    let active = sectionIds[0] || null;
-    for (const id of sectionIds) {
-      const el = document.getElementById(id);
-      if (!el) continue;
-      const rect = el.getBoundingClientRect();
-      if (rect.top - offset <= 0) active = id;
-    }
-    return active;
-  }
-
-  window.addEventListener('scroll', () => {
-    const activeId = getActiveSectionId();
-    if (activeId) setActiveNavLink(activeId);
-  }, { passive: true });
-
-  const initialActive = getActiveSectionId();
-  if (initialActive) setActiveNavLink(initialActive);
-
-  // 4) Scroll fade-in
-  const fadeEls = Array.from(document.querySelectorAll('.fade-in'));
-  if (fadeEls.length && 'IntersectionObserver' in window) {
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            io.unobserve(entry.target);
-          }
-        }
-      },
-      { threshold: 0.12, rootMargin: '0px 0px -30px 0px' }
-    );
-    fadeEls.forEach((el) => io.observe(el));
-  } else {
-    fadeEls.forEach((el) => el.classList.add('visible'));
-  }
-
-  // 5) Hero floating card animations
-  const floatingCards = document.querySelectorAll('.hero-float-card');
-  floatingCards.forEach((card, i) => {
-    card.style.animationDelay = `${i * 0.4}s`;
-  });
-})();
-
-
-// ===== ACCESSIBILITY & POLISH ENHANCEMENTS =====
-(() => {
-  const hamburger = document.getElementById('hamburger');
-  const navLinks = document.getElementById('nav-links');
-  const themeToggle = document.getElementById('themeToggle');
-
-  function syncThemeButtonState() {
-    if (!themeToggle) return;
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    themeToggle.setAttribute('aria-pressed', String(isDark));
-  }
-
-  syncThemeButtonState();
-  themeToggle?.addEventListener('click', syncThemeButtonState);
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key !== 'Escape' || !hamburger || !navLinks) return;
-    if (navLinks.classList.contains('open')) {
-      hamburger.classList.remove('open');
-      navLinks.classList.remove('open');
-      hamburger.setAttribute('aria-expanded', 'false');
-      hamburger.focus();
-    }
-  });
-
-  document.addEventListener('click', (event) => {
-    if (!hamburger || !navLinks || !navLinks.classList.contains('open')) return;
-    const target = event.target;
-    if (target instanceof Node && !navLinks.contains(target) && !hamburger.contains(target)) {
-      hamburger.classList.remove('open');
-      navLinks.classList.remove('open');
-      hamburger.setAttribute('aria-expanded', 'false');
-    }
-  });
-})();
+import {profile,projects} from './portfolio-data.js';
+import {icon,escapeHTML,chips,external} from './ui.js';
+import {views,projectCard} from './views.js';
+import {getAssistantReply} from './assistant.js';
+const nav=[['overview','Overview'],['about','About me'],['projects','Projects'],['skills','Skills'],['education','Education'],['learning','Learning'],['resume','Resume'],['contact','Contact']];
+const readPref=(key,fallback)=>{try{return localStorage.getItem(key)||fallback;}catch{return fallback;}};
+const savePref=(key,value)=>{try{localStorage.setItem(key,value);}catch{}};
+document.documentElement.dataset.theme=readPref('theme','dark');
+document.querySelector('#app').innerHTML=`
+<aside class="sidebar" id="sidebar"><a class="brand" href="#overview"><span class="brand-mark">jv<span>↗</span></span><span class="nav-label">John’s portfolio<span class="version">STUDENT DEVELOPER</span></span></a>
+<button class="icon-button collapse-button" id="collapse" aria-label="Collapse sidebar" aria-expanded="true" title="Collapse sidebar">${icon('collapse')}</button>
+<div class="sidebar-profile"><div class="avatar">JV</div><div class="nav-label"><strong>Joalnes John</strong><span>Student developer</span></div></div>
+<span class="nav-caption nav-label">WORKSPACE</span><nav aria-label="Main navigation">${nav.map(([id,label])=>`<a href="#${id}" data-nav="${id}" title="${label}">${icon(id)}<span class="nav-label">${label}</span>${id==='projects'?`<span class="nav-count nav-label">${String(projects.length).padStart(2,'0')}</span>`:''}</a>`).join('')}</nav>
+<div class="sidebar-bottom"><button class="assistant-launch" data-ai title="Open Portfolio AI">${icon('ai')}<span class="nav-label">Ask about me <small>AI PREVIEW</small></span></button><button class="theme-button" id="theme" title="Toggle theme">${icon('theme')}<span class="nav-label">Switch theme</span></button><div class="sidebar-foot nav-label"><span class="status">Open to internships</span><small>Built with curiosity.</small></div></div></aside>
+<div class="sidebar-backdrop" id="nav-backdrop" hidden></div>
+<div class="app-main"><header class="topbar"><div class="breadcrumb"><button class="icon-button mobile-menu" id="menu" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">${icon('menu')}</button><span>Portfolio</span><span class="muted">/</span><strong id="crumb">Overview</strong></div><div class="top-actions"><a href="#resume" class="text-button">${icon('resume')}<span>Resume</span></a><button class="icon-button" data-ai title="Open Portfolio AI" aria-label="Open Portfolio AI">${icon('ai')}</button><a href="#contact" class="top-avatar" aria-label="Contact Joalnes">JV</a></div></header><main id="workspace" tabindex="-1"></main><footer class="app-footer"><span>JOALNES JOHN D. VENDER</span><span>Student developer · Portfolio</span></footer></div>
+<dialog id="project-dialog" aria-labelledby="project-title"><button class="icon-button dialog-close" id="close-project" aria-label="Close project">${icon('close')}</button><div id="project-detail"></div></dialog>
+<dialog id="ai-dialog" class="ai-dialog" aria-labelledby="ai-title"><header class="ai-header"><span class="ai-symbol">${icon('ai')}</span><div><h2 id="ai-title">Portfolio AI</h2><span class="small muted">Local demo · No AI connected</span></div><button class="icon-button" id="close-ai" aria-label="Close assistant">${icon('close')}</button></header><div class="chat-history" id="chat-history" role="log" aria-live="polite"><div class="chat-message assistant">Hi, welcome to my portfolio. Ask about Joalnes’s projects, skills, or internship interests.<br><br>I use preset answers based on this portfolio.</div></div><div class="suggestions">${['What projects has he built?','What technologies does he know?','What is he currently learning?','Tell me about his capstone.','Which projects are most relevant to an internship?','How can I contact him?'].map(q=>`<button data-question="${q}">${q}</button>`).join('')}</div><form id="chat-form"><label class="sr-only" for="chat-input">Ask about Joalnes</label><input id="chat-input" placeholder="Ask about Joalnes…" maxlength="1000" required autocomplete="off"><button class="icon-button" aria-label="Send message">${icon('arrow')}</button></form><p class="ai-disclaimer">Demo answers only. Nothing is sent to an AI service.</p></dialog>`;
+const sidebar=document.querySelector('#sidebar'), menu=document.querySelector('#menu'), backdrop=document.querySelector('#nav-backdrop');
+function closeNav(){document.body.classList.remove('nav-open');backdrop.hidden=true;menu.setAttribute('aria-expanded','false');sidebar.inert=matchMedia('(max-width: 760px)').matches;}
+menu.onclick=()=>{document.body.classList.add('nav-open');backdrop.hidden=false;menu.setAttribute('aria-expanded','true');sidebar.inert=false;sidebar.querySelector('[aria-current="page"]').focus();};
+backdrop.onclick=()=>{closeNav();menu.focus();};
+document.querySelector('#collapse').onclick=()=>{const value=document.body.classList.toggle('collapsed');document.querySelector('#collapse').setAttribute('aria-expanded',String(!value));document.querySelector('#collapse').setAttribute('aria-label',value?'Expand sidebar':'Collapse sidebar');savePref('sidebar',value?'collapsed':'expanded');};
+if(readPref('sidebar','expanded')==='collapsed')document.querySelector('#collapse').click();
+document.querySelector('#theme').onclick=()=>{const theme=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=theme;savePref('theme',theme);};
+const workspace=document.querySelector('#workspace');
+function route(focus=true){const raw=location.hash.slice(1).split('/')[0];const aliases={home:'overview',certifications:'learning'};const id=aliases[raw]||raw||'overview';const selected=views[id]?id:'overview';workspace.innerHTML=views[selected]();document.querySelector('#crumb').textContent=nav.find(n=>n[0]===selected)[1];document.title=nav.find(n=>n[0]===selected)[1]+' · Joalnes John Vender';document.querySelectorAll('[data-nav]').forEach(a=>{if(a.dataset.nav===selected)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});closeNav();window.scrollTo(0,0);if(focus)workspace.querySelector('h1').focus({preventScroll:true});}
+window.addEventListener('hashchange',()=>route());route(false);
+matchMedia('(max-width: 760px)').addEventListener('change',closeNav);
+document.addEventListener('keydown',event=>{if(event.key==='Escape'&&document.body.classList.contains('nav-open')){closeNav();menu.focus();}if(event.key==='Tab'&&document.body.classList.contains('nav-open')){const items=[...sidebar.querySelectorAll('a,button')].filter(el=>el.getClientRects().length);const first=items[0],last=items.at(-1);if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}}});
+const projectDialog=document.querySelector('#project-dialog'), aiDialog=document.querySelector('#ai-dialog');
+document.querySelector('#close-project').onclick=()=>projectDialog.close();
+document.querySelector('#close-ai').onclick=()=>aiDialog.close();
+for(const dialog of [projectDialog,aiDialog])dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
+document.addEventListener('click',async e=>{
+ const project=e.target.closest('[data-project]');
+ if(project){const p=projects.find(p=>p.id===project.dataset.project);document.querySelector('#project-detail').innerHTML=`<span class="eyebrow">${p.type} / ${p.status}</span><h2 id="project-title">${p.name}</h2><p>${p.description}</p>${chips(p.tech)}${p.features.length?`<h3>Features</h3><ul class="feature-list">${p.features.map(f=>`<li>${icon('check')}${f}</li>`).join('')}</ul>`:''}${p.contribution?`<h3>My contribution</h3><p>${p.contribution}</p>`:''}<div class="detail-note">${p.note}</div><div class="actions">${p.website?external(p.website,'Live website','button primary'):''}${p.demo?external(p.demo,'Open demo','button primary'):''}${p.github?external(p.github,p.demo?'View source':'GitHub profile'):''}</div>`;projectDialog.showModal();}
+ if(e.target.closest('[data-ai]')){closeNav();aiDialog.showModal();document.querySelector('#chat-input').focus();}
+ const filter=e.target.closest('[data-filter]');if(filter){document.querySelectorAll('[data-filter]').forEach(b=>{b.classList.toggle('active',b===filter);b.setAttribute('aria-pressed',String(b===filter));});const value=filter.dataset.filter;document.querySelector('#project-results').innerHTML=projects.filter(p=>value==='All'||value==='Mobile'&&p.id==='onlyfunds'||value==='Academic'&&['chami','smarttripph','project44'].includes(p.id)||value==='In progress'&&p.status==='In progress').map(p=>projectCard(p)).join('');}
+ if(e.target.closest('#copy-email')){const status=document.querySelector('#copy-status');try{await navigator.clipboard.writeText(profile.email);status.textContent='Email copied.';}catch{status.textContent='Copy this address: '+profile.email;}}
+ const question=e.target.closest('[data-question]');if(question)sendMessage(question.dataset.question);
+});
+let sending=false;
+async function sendMessage(message){if(sending||!message.trim())return;sending=true;const history=document.querySelector('#chat-history');const append=(role,text)=>{const node=document.createElement('div');node.className='chat-message '+role;node.textContent=text;history.append(node);history.scrollTop=history.scrollHeight;};append('user',message);document.querySelector('#chat-input').value='';try{append('assistant',await getAssistantReply(message));}catch{append('assistant','Something went wrong. Please try again or use the Contact view.');}finally{sending=false;document.querySelector('#chat-input').focus();}}
+document.querySelector('#chat-form').onsubmit=e=>{e.preventDefault();sendMessage(document.querySelector('#chat-input').value.trim());};
