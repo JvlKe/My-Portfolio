@@ -14,3 +14,41 @@ dialog{border:1px solid var(--line);border-radius:16px;background:var(--surface)
 
 /* Fill the complete card width at every viewport size. */
 .project-cover .demo-thumbnail iframe{display:block;width:200%;height:200%;transform:scale(.5);transform-origin:top left}
+.suggestions{display:grid;gap:5px;flex:0 0 auto;padding:10px 0;max-height:none;overflow:hidden}
+.suggestions-track{display:flex;width:max-content;animation:question-marquee 34s linear infinite;will-change:transform}
+.suggestions-track-reverse{animation-direction:reverse}
+.suggestions-group{display:flex;align-items:center;gap:8px;flex:none;padding-right:8px}
+.suggestions-group button{flex:none;white-space:nowrap}
+.suggestions:hover .suggestions-track,.suggestions:focus-within .suggestions-track{animation-play-state:paused}
+@keyframes question-marquee{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.suggestions-track{animation:none!important;transform:none;width:100%}.suggestions-group{flex-wrap:wrap}.suggestions-group[aria-hidden=true]{display:none}}
+.logo-cover{height:100%;display:grid;place-items:center;align-content:center;gap:12px;background:radial-gradient(circle at center,#27483d 0,#15261f 45%,#101916 100%);color:#d8ebe3}
+.logo-cover img{width:min(34%,140px);aspect-ratio:1;object-fit:contain;filter:drop-shadow(0 16px 28px #0007)}
+
+/* Gentle, consistent motion for navigation, theme changes, and overlays. */
+html{scroll-behavior:smooth}
+body{transition:background-color .24s ease,color .24s ease}
+.sidebar,.topbar,.app-footer,.panel{transition:background-color .24s ease,color .24s ease,border-color .24s ease}
+.sidebar nav a{transition:background-color .2s ease,color .2s ease,transform .2s ease}
+.sidebar nav a:hover{transform:translateX(2px)}
+.assistant-launch{transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+.assistant-launch:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 8px 24px #0002}
+.icon-button{transition:background-color .18s ease,color .18s ease,transform .18s ease}
+.icon-button:hover{transform:translateY(-1px)}
+.button:active,.icon-button:active,.assistant-launch:active{transform:scale(.98)}
+.suggestions button{transition:border-color .18s ease,color .18s ease,background-color .18s ease,transform .18s ease}
+.suggestions button:hover{transform:translateY(-1px)}
+#chat-form{transition:border-color .2s ease,box-shadow .2s ease}
+#chat-form:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}
+#workspace> *{animation:appear .34s cubic-bezier(.2,.75,.25,1) both}
+.chat-message{animation:message-enter .24s cubic-bezier(.2,.75,.25,1) both}
+.ai-dialog[open]{animation:ai-drawer-in .38s cubic-bezier(.2,.8,.25,1) both}
+.ai-dialog[open].is-closing{animation:ai-drawer-out .22s cubic-bezier(.4,0,1,1) both}
+dialog:not(.ai-dialog)[open]{animation:modal-enter .28s cubic-bezier(.2,.75,.25,1) both}
+@keyframes ai-drawer-in{from{opacity:0;transform:translateX(28px) scale(.985)}to{opacity:1;transform:translateX(0) scale(1)}}
+@keyframes ai-drawer-out{from{opacity:1;transform:translateX(0) scale(1)}to{opacity:0;transform:translateX(20px) scale(.99)}}
+@keyframes modal-enter{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes message-enter{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.logo-cover span{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#a9c9bc}
+.photo-cover{width:100%;height:100%;background:#14251e;overflow:hidden}
+.photo-cover img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}

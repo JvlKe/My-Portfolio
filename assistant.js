@@ -1,15 +1,16 @@
-import {projects,skills,profile,credentials} from './portfolio-data.js';
+import {projects,skills,profile,learningCredentials} from './portfolio-data.js';
 // Saved answers are used when AI is unavailable.
 export function getLocalAssistantReply(message) {
  const text=message.toLowerCase();
- if(/contribut|role|personally|solo|team/.test(text)) return projects.map(p=>`${p.name}: ${p.contribution}`).join('\n\n');
+ if(/capstone|thesis|chami/.test(text)){const p=projects.find(p=>p.id==='chami');return `${p.name}: ${p.description} ${p.contribution} ${p.note}`;}
+ if(/smarttrip/.test(text)){const p=projects.find(p=>p.id==='smarttrip');return `${p.name}: ${p.description} ${p.contribution}`;}
+ if(/introduc|background|who is|about joalnes/.test(text)) return `${profile.name} is a ${profile.year} ${profile.course} student at ${profile.school}, focused on data analysis, research, and visualization. He is seeking a Data Analyst OJT or internship.`;
  if(/contact|email|reach/.test(text)) return `You can contact Joalnes at ${profile.email}, or connect through the Contact view.`;
- if(/capstone|thesis|chami/.test(text)) return (()=>{const p=projects.find(p=>p.id==='chami');return `${p.name}: ${p.description} ${p.contribution} ${p.note}`;})();
- if(/smarttrip|smart trip|travel/.test(text)) return projects.find(p=>p.id==='smarttripph').description + ' He used Supabase, Vercel, and Render for this project.';
- if(/firebase/.test(text)) return 'OnlyFunds uses Firebase, but a teammate implemented it. Firebase is not listed as Joalnes’s personal skill.';
- if(/learn|course|certif/.test(text)) return `His listed credentials include ${credentials.map(c=>c.name).join(', ')}. Chami is his ongoing thesis project.`;
- if(/tech|skill|language/.test(text)) return `His toolkit includes ${Object.values(skills).flat().join(', ')}. Explore Skills for the full breakdown.`;
- if(/intern|relevant/.test(text)) return 'He is seeking a Data Analyst internship. OnlyFunds includes student budget tracking, while SmartTrip Planner PH includes travel budgets and itinerary management. Firebase integration in OnlyFunds was handled by a teammate.';
+ if(/which project|project.*(analyt|data|visual)|analyt.*project/.test(text)) return 'Chami best demonstrates his research data visualization and technical presentation contributions. SmartTrip Planner PH is his individually completed APSI project.';
+ if(/learn|course|certif|credential|education|academic/.test(text)) return `He is a ${profile.year} ${profile.course} student at ${profile.school}. His listed credentials include ${learningCredentials.map(c=>c.name).join(', ')}.`;
+ if(/data|visual|analyt|tech|skill|language|tool/.test(text)) return `His data-related experience includes research data visualization and information design. His listed tools include Python, SQL (MySQL), Supabase, and Figma; see Skills for his full toolkit.`;
+ if(/intern|relevant|ojt|availability|work setup/.test(text)) return 'He is seeking a Data Analyst OJT or internship and is open to on-site, hybrid, or remote arrangements.';
+ if(/contribut|role|personally|solo|team/.test(text)) return projects.map(p=>`${p.name}: ${p.contribution}`).join('\n\n');
  if(/project|built/.test(text)) return projects.map(p=>`${p.name}: ${p.description}`).join('\n\n');
  return 'I’m a local demo assistant with preset answers, not a connected AI. Try asking about projects, technologies, learning, internship fit, or contact details.';
 }
@@ -17,7 +18,7 @@ const replies=new Map();
 export async function getAssistantReply(message){
  if(typeof window==='undefined'||/contact|email|phone|reach/i.test(message))return getLocalAssistantReply(message);
  const question=message.trim().replace(/\s+/g,' ');
- const version=JSON.stringify({projects,skills});
+ const version=JSON.stringify({projects,skills,profile:{name:profile.name,school:profile.school,course:profile.course,year:profile.year},credentials:learningCredentials.map(({issuer,name})=>({issuer,name}))});
  const key=version+question;
  let stored;
  try{stored=JSON.parse(sessionStorage.getItem('portfolio-ai-cache')||'{}');}catch{stored={};}
